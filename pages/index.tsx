@@ -57,7 +57,7 @@ const Home: NextPage = () => {
     { 'circle': 'puducherry', 'customer': 'airtel', 'project': 'abc' }
   ]
 
-  const [circles, setCircles] = React.useState([]);
+  const [circles, setCircles] = React.useState<string[]>([]);
   const [customer, setCustomer] = React.useState([]);
   const [data, setData] = React.useState([
     {
@@ -96,7 +96,7 @@ const Home: NextPage = () => {
     setData(deleteRow)
   }
 
-  const handleChecked = (id, e) => {
+  const handleChecked = (id: number, e: { target: { checked: boolean; }; }) => {
     const tempData = [...data];
     tempData.forEach(element => {
       if (element.id === id) {
@@ -112,29 +112,29 @@ const Home: NextPage = () => {
 
   }
 
-  const handleCirlces = (id, value) => {
+  const handleCirlces = (id: number, value: string) => {
     const tempData = [...data];
     tempData.forEach(element => {
       if (element.id === id) {
         element.circle = value
-        element.tempCustomer = [...new Set(details.map(item => item.circle === value && item.customer))].filter(item => item)
+        element.tempCustomer = getUniqueValues(details.filter(item => (item.circle === value)).map(item=> item.customer)) as never[];
       }
     });
     setData(tempData);
   }
 
-  const handleCustomer = (id, value) => {
+  const handleCustomer = (id: number, value: string) => {
     const tempData = [...data];
     tempData.forEach(element => {
       if (element.id === id) {
         element.customer = value
-        element.tempProject = [...new Set(details.map(item => item.customer === value && item.project))].filter(item => item)
+        element.tempProject = getUniqueValues(details.filter(item => (item.customer === value)).map(item => item.project)) as never[]
       }
     });
     setData(tempData);
   }
 
-  const handleProject = (id, value) => {
+  const handleProject = (id: number, value: string) => {
     const tempData = [...data];
     tempData.forEach(element => {
       if (element.id === id) {
@@ -144,8 +144,20 @@ const Home: NextPage = () => {
     setData(tempData);
   }
 
+  function getUniqueValues(arr: string[]) {
+    const uniqueValues: any[] = [];
+  
+    for (const item of arr) {
+      if (!uniqueValues.includes(item)) {
+        uniqueValues.push(item);
+      }
+    }
+  
+    return uniqueValues;
+  }
+
   React.useEffect(() => {
-    const distinctCircles = [...new Set(details.map(item => item.circle))];
+    const distinctCircles = getUniqueValues(details.map(item => item.circle));
     setCircles(distinctCircles);
   }, [])
 
