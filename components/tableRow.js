@@ -1,7 +1,7 @@
 import React from 'react'
 
 const TableRow = (props) => {
-	const { data, circles, handleChecked, handleCirlces, handleCustomer, handleProject } = props;
+	const { data, circles, category, resource, vendor, handleChecked, handleCirlces, handleCustomer, handleProject, handleCategory, handleSOW, handleTeam, handleResource, handleVendor } = props;
 	return (
 		<tr>
 			<td>
@@ -36,13 +36,55 @@ const TableRow = (props) => {
 				</select>
 			</td>
 			<td>
-				<input type="date" />
-			</td>
-			<td>
 				<input type="text" />
 			</td>
 			<td>
 				<input type="text" />
+			</td>
+			<td>
+				<select
+					value={data.category}
+					onChange={(e) => handleCategory(data.id, e.target.value)}
+				>
+					<option>select category</option>
+					{category.map(item => <option key={item} value={item}>{item}</option>)}
+				</select>
+			</td>
+			<td>
+				<select
+					value={data.sow}
+					onChange={(e) => handleSOW(data.id, e.target.value)}
+				>
+					<option>select sow</option>
+					{data.tempSOW.map(item => <option key={item} value={item}>{item}</option>)}
+				</select>
+			</td>
+			<td>
+				<select
+					value={data.team}
+					onChange={(e) => handleTeam(data.id, e.target.value)}
+				>
+					<option>select team</option>
+					{data.tempTeam.map(item => <option key={item} value={item}>{item}</option>)}
+				</select>
+			</td>
+			<td>
+				<select
+					value={data.resource}
+					onChange={(e) => handleResource(data.id, e.target.value)}
+				>
+					<option>select resource</option>
+					{resource.map(item => <option key={item} value={item}>{item}</option>)}
+				</select>
+			</td>
+			<td>
+				<select
+					value={data.vendor}
+					onChange={(e) => handleVendor(data.id, e.target.value)}
+				>
+					<option>select vendor</option>
+					{vendor.map(item => <option key={item} value={item}>{item}</option>)}
+				</select>
 			</td>
 		</tr>
 	)
